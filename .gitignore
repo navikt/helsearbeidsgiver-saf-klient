@@ -1,0 +1,12 @@
+.idea
+*.iml
+application-local.properties
+application-local.yaml
+bootstrap-local.yaml
+transaction-logs
+target
+.gradle
+/build/
+out/
+.DS_Store
+application-local.yml
