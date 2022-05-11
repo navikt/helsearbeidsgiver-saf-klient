@@ -4,7 +4,9 @@ val ktorVersion: String by project
 val githubPassword: String by project
 
 plugins {
+    id("maven-publish")
     kotlin("jvm") version "1.6.20"
+    kotlin("plugin.serialization") version "1.6.21"
 }
 
 group = "no.nav.helsearbeidsgiver"
@@ -30,4 +32,12 @@ tasks.test {
 
 tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("mavenJava") {
+            from(components["java"])
+        }
+    }
 }
