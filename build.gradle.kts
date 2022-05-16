@@ -5,15 +5,22 @@ val githubPassword: String by project
 
 plugins {
     id("maven-publish")
-    kotlin("jvm") version "1.5.30"
+    kotlin("jvm") version "1.6.21"
     kotlin("plugin.serialization") version "1.6.21"
 }
 
 group = "no.nav.helsearbeidsgiver"
-version = "1.0-SNAPSHOT"
+version = "0.1.0"
 
 repositories {
     mavenCentral()
+    maven {
+        credentials {
+            username = "x-access-token"
+            password = githubPassword
+        }
+        setUrl("https://maven.pkg.github.com/navikt/helsearbeidsgiver-tokenprovider")
+    }
 }
 
 dependencies {
@@ -21,6 +28,7 @@ dependencies {
     implementation("io.ktor:ktor-client-json:$ktorVersion")
     implementation("io.ktor:ktor-client-serialization:$ktorVersion")
     implementation("io.ktor:ktor-client-cio:$ktorVersion")
+    implementation("no.nav.helsearbeidsgiver:helsearbeidsgiver-tokenprovider:0.1.2")
 
     testImplementation("io.ktor:ktor-client-mock:$ktorVersion")
     testImplementation(kotlin("test"))
@@ -31,7 +39,7 @@ tasks.test {
 }
 
 tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions.jvmTarget = "17"
 }
 
 publishing {
