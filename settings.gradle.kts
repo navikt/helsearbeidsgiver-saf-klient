@@ -1,3 +1,3 @@
 
-rootProject.name = "helsearbeidsgiver-saf-klient"
+rootProject.name = "saf-klient"
 
