@@ -1,7 +1,6 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 val ktorVersion: String by project
-val githubPassword: String by project
 
 plugins {
     id("maven-publish")
@@ -13,12 +12,20 @@ plugins {
 group = "no.nav.helsearbeidsgiver"
 version = "0.1.0"
 
+tasks.withType<KotlinCompile> {
+    kotlinOptions.jvmTarget = "17"
+}
+
+tasks.test {
+    useJUnitPlatform()
+}
+
 repositories {
     mavenCentral()
     maven {
         credentials {
             username = "x-access-token"
-            password = githubPassword
+            password = System.getenv("GITHUB_TOKEN")
         }
         setUrl("https://maven.pkg.github.com/navikt/*")
     }
@@ -46,16 +53,7 @@ dependencies {
     implementation("io.ktor:ktor-client-json:$ktorVersion")
     implementation("io.ktor:ktor-client-serialization:$ktorVersion")
     implementation("io.ktor:ktor-client-cio:$ktorVersion")
-    implementation("no.nav.helsearbeidsgiver:helsearbeidsgiver-tokenprovider:0.1.2")
-
+    implementation("no.nav.helsearbeidsgiver:tokenprovider:0.1.3")
     testImplementation("io.ktor:ktor-client-mock:$ktorVersion")
     testImplementation(kotlin("test"))
-}
-
-tasks.test {
-    useJUnitPlatform()
-}
-
-tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "17"
 }
