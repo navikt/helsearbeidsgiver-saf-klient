@@ -10,13 +10,13 @@ plugins {
     id("org.sonarqube") version "2.8"
  }
 
- sonarqube {
-     properties {
-         property("sonar.projectKey", "navikt_im-varsel")
-         property("sonar.organization", "navikt")
-         property("sonar.host.url", "https://sonarcloud.io")
-         property("sonar.login", System.getenv("SONAR_TOKEN"))
-     }
+sonarqube {
+    properties {
+        property("sonar.projectKey", "navikt_helsearbeidsgiver-saf-klient")
+        property("sonar.organization", "navikt")
+        property("sonar.host.url", "https://sonarcloud.io")
+        property("sonar.login", System.getenv("SONAR_TOKEN"))
+    }
  }
 
 group = "no.nav.helsearbeidsgiver"
