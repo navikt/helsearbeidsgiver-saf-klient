@@ -1,0 +1,10 @@
+{
+  "errors": [
+    {
+      "message": "Dette er en feilmelding",
+      "extensions": {
+        "classification": "ValidationError"
+      }
+    }
+  ]
+}

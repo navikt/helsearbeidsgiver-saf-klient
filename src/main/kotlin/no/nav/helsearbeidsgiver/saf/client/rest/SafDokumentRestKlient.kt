@@ -1,4 +1,4 @@
-package no.nav.client
+package no.nav.helsearbeidsgiver.saf.client.rest
 
 import io.ktor.client.HttpClient
 import io.ktor.client.request.accept
@@ -9,10 +9,24 @@ import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import io.ktor.util.toByteArray
 import kotlinx.coroutines.runBlocking
-import no.nav.helsearbeidsgiver.utils.*
+import no.nav.helsearbeidsgiver.saf.utils.MDCOperations
+import no.nav.helsearbeidsgiver.saf.utils.log
 import java.util.UUID
+import no.nav.helsearbeidsgiver.tokenprovider.AccessTokenProvider
 
-class SafDokumentClient(
+/**
+ * Klient som henter dokument fra saf
+ *
+ * Dokumentasjon
+ * https://confluence.adeo.no/display/BOA/saf+-+REST+hentdokument
+ *
+ *
+ * Swagger
+ * https://saf-q1.dev.intern.nav.no/swagger-ui/index.html
+ *
+ */
+
+class SafDokumentRestKlient(
     private val url: String,
     private val httpClient: HttpClient,
     private val stsClient: AccessTokenProvider
