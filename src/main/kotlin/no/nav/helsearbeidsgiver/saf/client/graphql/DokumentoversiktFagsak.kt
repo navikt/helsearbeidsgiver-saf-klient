@@ -1,9 +1,9 @@
 package no.nav.helsearbeidsgiver.saf.client.graphql
 
 import kotlinx.coroutines.runBlocking
-import no.nav.helsearbeidsgiver.saf.client.generated.DokumenterFagsak
-import no.nav.helsearbeidsgiver.saf.client.generated.inputs.FagsakInput
-import no.nav.helsearbeidsgiver.saf.client.generated.dokumenterfagsak.Journalpost
+import no.nav.helsearbeidsgiver.saf.graphql.generated.DokumenterFagsak
+import no.nav.helsearbeidsgiver.saf.graphql.generated.inputs.FagsakInput
+import no.nav.helsearbeidsgiver.saf.graphql.generated.dokumenterfagsak.Journalpost
 
 suspend fun SafKlient.dokumentoversiktFagsak(fagsak: String, fagsystem: String): List<Journalpost?> {
 

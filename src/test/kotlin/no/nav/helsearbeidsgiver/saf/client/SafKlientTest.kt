@@ -17,8 +17,7 @@ class SafKlientTest {
         val response = Json.encodeToString(lagGyldigResponse())
         val safKlient = buildSafKlient(response)
         val resultat = runBlocking { safKlient.dokumentoversiktFagsak("12345", "Test") }
-        val journalpostId = resultat?.get(0)?.journalpostId
-        assertEquals("1234", journalpostId)
+        assertEquals("1234", resultat?.get(0)?.journalpostId)
     }
 
     @Test
@@ -26,7 +25,7 @@ class SafKlientTest {
         val response = getResourceAsText("error.json")
         val safKlient = buildSafKlient(response)
         assertThrows<ErrorException> {
-            val resultat = runBlocking { safKlient.dokumentoversiktFagsak("12345", "Test") }
+            runBlocking { safKlient.dokumentoversiktFagsak("12345", "Test") }
         }
     }
 }
