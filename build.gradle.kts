@@ -32,10 +32,10 @@ tasks {
         useJUnitPlatform()
     }
     lintKotlinMain {
-        exclude("no/nav/helsearbeidsgiver/arbeidsgivernotifkasjon/graphql/generated/**/*.kt")
+        exclude("no/nav/helsearbeidsgiver/saf/graphql/generated/**/*.kt")
     }
     formatKotlinMain {
-        exclude("no/nav/helsearbeidsgiver/arbeidsgivernotifkasjon/graphql/generated/**/*.kt")
+        exclude("no/nav/helsearbeidsgiver/saf/graphql/generated/**/*.kt")
     }
 }
 
@@ -84,7 +84,7 @@ dependencies {
 graphql {
     client {
         sdlEndpoint = "https://navikt.github.io/saf/saf-api-sdl.graphqls"
-        packageName = "no.nav.helsearbeidsgiver.saf.client.generated"
+        packageName = "no.nav.helsearbeidsgiver.saf.graphql.generated"
         schemaFile = File("src/main/resources/saf-api-sdl.graphqls")
         queryFiles = file("src/main/resources/saf").listFiles().toList()
         // allowDeprecatedFields = false
