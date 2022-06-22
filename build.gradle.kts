@@ -9,7 +9,7 @@ object Versions {
     const val logback = "1.2.11"
     const val logstash = "7.1.1"
     const val kotlin = "1.6.21"
-    const val tokenprovider = "0.1.2"
+    const val tokenprovider = "0.1.4"
 }
 
 plugins {
@@ -78,7 +78,7 @@ dependencies {
     implementation("io.ktor:ktor-client-serialization:${Versions.ktor}")
     implementation("io.ktor:ktor-client-cio:${Versions.ktor}")
     testImplementation("io.ktor:ktor-client-mock:${Versions.ktor}")
-    implementation("no.nav.helsearbeidsgiver:helsearbeidsgiver-tokenprovider:${Versions.tokenprovider}")
+    implementation("no.nav.helsearbeidsgiver:tokenprovider:${Versions.tokenprovider}")
 }
 
 graphql {
