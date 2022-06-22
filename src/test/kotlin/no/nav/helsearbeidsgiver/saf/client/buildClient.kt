@@ -8,7 +8,6 @@ import io.ktor.http.*
 import io.ktor.utils.io.ByteReadChannel
 import no.nav.helsearbeidsgiver.saf.client.rest.SafDokumentRestKlient
 import no.nav.helsearbeidsgiver.saf.client.graphql.SafKlient
-import java.net.URL
 
 fun buildSafDokumentRestKlient(status: HttpStatusCode, content: String): SafDokumentRestKlient {
     return SafDokumentRestKlient(
@@ -32,7 +31,7 @@ fun buildSafKlient(
     }
 
     return SafKlient(
-        URL("https://notifikasjon-fake-produsent-api.labs.nais.io/"),
+        "https://saf.dev.intern.nav.no/graphql ",
         MockAccessTokenProvider(),
         HttpClient(mockEngine) { install(JsonFeature) }
     )

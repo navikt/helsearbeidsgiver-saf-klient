@@ -11,12 +11,12 @@ import org.slf4j.LoggerFactory
 import java.net.URL
 
 class SafKlient(
-    url: URL,
+    url: String,
     private val accessTokenProvider: AccessTokenProvider,
     httpClient: HttpClient
 ) {
     private val graphQLClient = GraphQLKtorClient(
-        url = url,
+        url = URL(url),
         httpClient = httpClient
     )
 
