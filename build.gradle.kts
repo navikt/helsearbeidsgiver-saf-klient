@@ -21,14 +21,22 @@ plugins {
 }
 
 group = "no.nav.helsearbeidsgiver"
-version = "0.1.0"
+version = "0.2.0"
 
 tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "11"
 }
 
-tasks.test {
-    useJUnitPlatform()
+tasks {
+    test {
+        useJUnitPlatform()
+    }
+    lintKotlinMain {
+        exclude("no/nav/helsearbeidsgiver/arbeidsgivernotifkasjon/graphql/generated/**/*.kt")
+    }
+    formatKotlinMain {
+        exclude("no/nav/helsearbeidsgiver/arbeidsgivernotifkasjon/graphql/generated/**/*.kt")
+    }
 }
 
 repositories {
