@@ -7,7 +7,8 @@ import io.ktor.client.features.json.JsonFeature
 import io.ktor.http.*
 import io.ktor.utils.io.ByteReadChannel
 import no.nav.helsearbeidsgiver.saf.client.rest.SafDokumentRestKlient
-import no.nav.helsearbeidsgiver.saf.client.graphql.SafKlient
+import no.nav.helsearbeidsgiver.saf.client.graphql.SafKlientImpl
+import no.nav.helsearbeidsgiver.saf.client.graphql.SyncSafKlient
 
 fun buildSafDokumentRestKlient(status: HttpStatusCode, content: String): SafDokumentRestKlient {
     return SafDokumentRestKlient(
@@ -21,7 +22,7 @@ fun buildSafKlient(
     response: String,
     status: HttpStatusCode = HttpStatusCode.OK,
     headers: Headers = headersOf(HttpHeaders.ContentType, "application/json")
-): SafKlient {
+): SyncSafKlient {
     val mockEngine = MockEngine {
         respond(
             content = ByteReadChannel(response),
@@ -30,7 +31,7 @@ fun buildSafKlient(
         )
     }
 
-    return SafKlient(
+    return SafKlientImpl(
         "https://saf.dev.intern.nav.no/graphql ",
         MockAccessTokenProvider(),
         HttpClient(mockEngine) { install(JsonFeature) }
