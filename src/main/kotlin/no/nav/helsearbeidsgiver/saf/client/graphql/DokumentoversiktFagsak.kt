@@ -1,11 +1,10 @@
 package no.nav.helsearbeidsgiver.saf.client.graphql
 
-import kotlinx.coroutines.runBlocking
 import no.nav.helsearbeidsgiver.saf.graphql.generated.DokumenterFagsak
 import no.nav.helsearbeidsgiver.saf.graphql.generated.inputs.FagsakInput
 import no.nav.helsearbeidsgiver.saf.graphql.generated.dokumenterfagsak.Journalpost
 
-suspend fun SafKlient.dokumentoversiktFagsak(fagsak: String, fagsystem: String): List<Journalpost?> {
+suspend fun SafKlientImpl.dokumentoversiktFagsak(fagsak: String, fagsystem: String): List<Journalpost?> {
 
     val query = DokumenterFagsak(
         DokumenterFagsak.Variables(
@@ -22,11 +21,6 @@ suspend fun SafKlient.dokumentoversiktFagsak(fagsak: String, fagsystem: String):
     if (jounalposter == null) return emptyList()
     return jounalposter
 }
-
-fun SafKlient.dokumetoversiktFagsakSync(fagsak: String, fagsystem: String): List<Journalpost?> {
-    return runBlocking { dokumentoversiktFagsak(fagsak, fagsystem) }
-}
-
 open class SafDokumentoversiktFagsakException(feilmelding: String) : Exception(feilmelding)
 
 open class NotAuthorizedException(fagsak: String, fagsystem: String) : SafDokumentoversiktFagsakException(
