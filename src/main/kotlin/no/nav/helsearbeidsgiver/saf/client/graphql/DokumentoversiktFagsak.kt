@@ -3,8 +3,10 @@ package no.nav.helsearbeidsgiver.saf.client.graphql
 import no.nav.helsearbeidsgiver.saf.graphql.generated.DokumenterFagsak
 import no.nav.helsearbeidsgiver.saf.graphql.generated.inputs.FagsakInput
 import no.nav.helsearbeidsgiver.saf.graphql.generated.dokumenterfagsak.Journalpost
-
-suspend fun SafKlientImpl.dokumentoversiktFagsak(fagsak: String, fagsystem: String): List<Journalpost?> {
+import no.nav.helsearbeidsgiver.saf.utils.MDCOperations
+import no.nav.helsearbeidsgiver.saf.utils.MDCOperations.Companion.MDC_CALL_ID
+suspend fun SafKlientImpl.dokumentoversiktFagsak(fagsak: String, fagsystem: String, callId: String): List<Journalpost?> {
+    MDCOperations.putToMDC(MDC_CALL_ID, callId)
 
     val query = DokumenterFagsak(
         DokumenterFagsak.Variables(
@@ -18,6 +20,7 @@ suspend fun SafKlientImpl.dokumentoversiktFagsak(fagsak: String, fagsystem: Stri
         throw ErrorException(fagsak, fagsystem, response.errors.toString())
     }
     val jounalposter = response.data?.dokumentoversiktFagsak?.journalposter
+    MDCOperations.remove(MDC_CALL_ID)
     if (jounalposter == null) return emptyList()
     return jounalposter
 }
