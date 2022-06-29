@@ -21,7 +21,7 @@ plugins {
 }
 
 group = "no.nav.helsearbeidsgiver"
-version = "0.2.2"
+version = "0.2.3"
 
 tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "11"
@@ -86,7 +86,7 @@ graphql {
         sdlEndpoint = "https://navikt.github.io/saf/saf-api-sdl.graphqls"
         packageName = "no.nav.helsearbeidsgiver.saf.graphql.generated"
         schemaFile = File("src/main/resources/saf-api-sdl.graphqls")
-        queryFiles = file("src/main/resources/saf").listFiles().toList()
+        queryFiles = file("src/main/resources/saf").listFiles()?.toList()!!
         allowDeprecatedFields = true
         serializer = com.expediagroup.graphql.plugin.gradle.config.GraphQLSerializer.KOTLINX
     }
