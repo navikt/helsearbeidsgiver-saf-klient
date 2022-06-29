@@ -33,7 +33,7 @@ fun buildSafKlient(
 
     return SafKlientImpl(
         "https://saf.dev.intern.nav.no/graphql ",
-        MockAccessTokenProvider(),
+        { MockAccessTokenProvider().getToken() },
         HttpClient(mockEngine) { install(JsonFeature) }
     )
 }
