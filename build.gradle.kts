@@ -87,7 +87,7 @@ graphql {
         packageName = "no.nav.helsearbeidsgiver.saf.graphql.generated"
         schemaFile = File("src/main/resources/saf-api-sdl.graphqls")
         queryFiles = file("src/main/resources/saf").listFiles().toList()
-        // allowDeprecatedFields = false
+        allowDeprecatedFields = true
         serializer = com.expediagroup.graphql.plugin.gradle.config.GraphQLSerializer.KOTLINX
     }
 }
