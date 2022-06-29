@@ -9,6 +9,8 @@ import io.ktor.http.HttpHeaders
 import kotlinx.coroutines.runBlocking
 import no.nav.helsearbeidsgiver.saf.graphql.generated.dokumenterfagsak.Journalpost
 import no.nav.helsearbeidsgiver.saf.graphql.generated.enums.BrukerIdType
+import no.nav.helsearbeidsgiver.saf.utils.MDCOperations
+import no.nav.helsearbeidsgiver.saf.utils.MDCOperations.Companion.MDC_CALL_ID
 import java.net.URL
 import no.nav.helsearbeidsgiver.saf.graphql.generated.dokumenterbruker.Journalpost as JournalpostBruker
 
@@ -17,8 +19,8 @@ interface SafKlient {
 }
 
 interface SyncSafKlient {
-    fun dokumentoversiktFagsakSync(fagsak: String, fagsystem: String): List<Journalpost?>
-    fun dokumentoversiktBrukerSync(id: String, type: BrukerIdType): List<JournalpostBruker?>
+    fun dokumentoversiktFagsakSync(fagsak: String, fagsystem: String, callId: String): List<Journalpost?>
+    fun dokumentoversiktBrukerSync(id: String, type: BrukerIdType, callId: String): List<JournalpostBruker?>
 }
 
 class SafKlientImpl(
@@ -34,13 +36,15 @@ class SafKlientImpl(
     override suspend fun <T : Any> execute(query: GraphQLClientRequest<T>): GraphQLClientResponse<T> =
         graphQLClient.execute(query) {
             header(HttpHeaders.Authorization, "Bearer ${accessTokenProvider()}")
+            header("Nav-Callid", MDCOperations.getFromMDC(MDC_CALL_ID))
+            header("Nav-Consumer-Id", "helsearbeidsgiver-saf-klient")
         }
 
-    override fun dokumentoversiktFagsakSync(fagsak: String, fagsystem: String): List<Journalpost?> {
-        return runBlocking { dokumentoversiktFagsak(fagsak, fagsystem) }
+    override fun dokumentoversiktFagsakSync(fagsak: String, fagsystem: String, callId: String): List<Journalpost?> {
+        return runBlocking { dokumentoversiktFagsak(fagsak, fagsystem, callId) }
     }
 
-    override fun dokumentoversiktBrukerSync(id: String, type: BrukerIdType): List<JournalpostBruker?> {
-        return runBlocking { dokumentoversiktBruker(id, type) }
+    override fun dokumentoversiktBrukerSync(id: String, type: BrukerIdType, callId: String): List<JournalpostBruker?> {
+        return runBlocking { dokumentoversiktBruker(id, type, callId) }
     }
 }
