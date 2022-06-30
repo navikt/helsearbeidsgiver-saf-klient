@@ -4,7 +4,7 @@ val ktorVersion: String by project
 val githubPassword: String by project
 
 object Versions {
-    const val graphQLKotlin = "5.3.2"
+    const val graphQLKotlin = "5.5.0"
     const val ktor = "1.6.8"
     const val logback = "1.2.11"
     const val logstash = "7.1.1"
@@ -16,12 +16,12 @@ plugins {
     id("maven-publish")
     kotlin("jvm") version "1.6.21"
     kotlin("plugin.serialization") version "1.6.21"
-    id("com.expediagroup.graphql") version "5.3.2"
+    id("com.expediagroup.graphql") version "5.5.0"
     id("org.jmailen.kotlinter") version "3.10.0"
 }
 
 group = "no.nav.helsearbeidsgiver"
-version = "0.3.0"
+version = "0.3.1"
 
 tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "11"
