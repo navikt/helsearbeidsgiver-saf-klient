@@ -9,13 +9,11 @@ import io.ktor.http.HttpHeaders
 import kotlinx.coroutines.runBlocking
 import no.nav.helsearbeidsgiver.saf.graphql.generated.dokumenterfagsak.Journalpost
 import no.nav.helsearbeidsgiver.saf.graphql.generated.enums.BrukerIdType
-import no.nav.helsearbeidsgiver.saf.utils.MDCOperations
-import no.nav.helsearbeidsgiver.saf.utils.MDCOperations.Companion.MDC_CALL_ID
 import java.net.URL
 import no.nav.helsearbeidsgiver.saf.graphql.generated.dokumenterbruker.Journalpost as JournalpostBruker
 
 interface SafKlient {
-    suspend fun <T : Any> execute(query: GraphQLClientRequest<T>): GraphQLClientResponse<T>
+    suspend fun <T : Any> execute(query: GraphQLClientRequest<T>, callId: String): GraphQLClientResponse<T>
 }
 
 interface SyncSafKlient {
@@ -33,10 +31,10 @@ class SafKlientImpl(
         httpClient = httpClient
     )
 
-    override suspend fun <T : Any> execute(query: GraphQLClientRequest<T>): GraphQLClientResponse<T> =
+    override suspend fun <T : Any> execute(query: GraphQLClientRequest<T>, callId: String): GraphQLClientResponse<T> =
         graphQLClient.execute(query) {
             header(HttpHeaders.Authorization, "Bearer ${accessTokenProvider()}")
-            header("Nav-Callid", MDCOperations.getFromMDC(MDC_CALL_ID))
+            header("Nav-Callid", callId)
             header("Nav-Consumer-Id", "helsearbeidsgiver-saf-klient")
         }
 

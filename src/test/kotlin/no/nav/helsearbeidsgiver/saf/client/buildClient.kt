@@ -9,12 +9,13 @@ import io.ktor.utils.io.ByteReadChannel
 import no.nav.helsearbeidsgiver.saf.client.rest.SafDokumentRestKlient
 import no.nav.helsearbeidsgiver.saf.client.graphql.SafKlientImpl
 import no.nav.helsearbeidsgiver.saf.client.graphql.SyncSafKlient
+import java.util.UUID
 
 fun buildSafDokumentRestKlient(status: HttpStatusCode, content: String): SafDokumentRestKlient {
     return SafDokumentRestKlient(
         "",
         mockHttpClient(status, content),
-        { MockAccessTokenProvider().getToken() }
+        { UUID.randomUUID().toString() }
     )
 }
 
@@ -33,7 +34,7 @@ fun buildSafKlient(
 
     return SafKlientImpl(
         "https://saf.dev.intern.nav.no/graphql ",
-        { MockAccessTokenProvider().getToken() },
+        { UUID.randomUUID().toString() },
         HttpClient(mockEngine) { install(JsonFeature) }
     )
 }

@@ -6,8 +6,6 @@ import no.nav.helsearbeidsgiver.saf.graphql.generated.dokumenterbruker.Journalpo
 import no.nav.helsearbeidsgiver.saf.graphql.generated.enums.BrukerIdType
 import no.nav.helsearbeidsgiver.saf.graphql.generated.enums.Journalstatus
 import no.nav.helsearbeidsgiver.saf.graphql.generated.enums.Tema
-import no.nav.helsearbeidsgiver.saf.utils.MDCOperations
-import no.nav.helsearbeidsgiver.saf.utils.MDCOperations.Companion.MDC_CALL_ID
 
 suspend fun SafKlientImpl.dokumentoversiktBruker(id: String, type: BrukerIdType, callId: String): List<Journalpost?> {
     return dokumentoversiktBruker(buildQuery(id, type), callId)
@@ -31,13 +29,11 @@ fun buildQuery(
 }
 
 suspend fun SafKlientImpl.dokumentoversiktBruker(query: DokumenterBruker, callId: String): List<Journalpost?> {
-    MDCOperations.putToMDC(MDC_CALL_ID, callId)
-    val response = execute(query)
+    val response = execute(query, callId)
     if (response.errors != null) {
         throw SafDokumentoversiktBrukerException("Henting av dokumentoversiktBrukermot saf-api feilet: ${response.errors}")
     }
     val jounalposter = response.data?.dokumentoversiktBruker?.journalposter
-    MDCOperations.remove(MDC_CALL_ID)
     if (jounalposter == null) return emptyList()
     return jounalposter
 }

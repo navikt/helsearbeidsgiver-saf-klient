@@ -6,10 +6,6 @@ val githubPassword: String by project
 object Versions {
     const val graphQLKotlin = "5.5.0"
     const val ktor = "1.6.8"
-    const val logback = "1.2.11"
-    const val logstash = "7.1.1"
-    const val kotlin = "1.6.21"
-    const val tokenprovider = "0.1.4"
 }
 
 plugins {
@@ -21,7 +17,7 @@ plugins {
 }
 
 group = "no.nav.helsearbeidsgiver"
-version = "0.3.3"
+version = "0.3.4"
 
 tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "11"
@@ -70,15 +66,12 @@ publishing {
 dependencies {
     testImplementation(kotlin("test"))
 
-    runtimeOnly("ch.qos.logback:logback-classic:${Versions.logback}")
-
     implementation("com.expediagroup:graphql-kotlin-ktor-client:${Versions.graphQLKotlin}")
     implementation("io.ktor:ktor-client-core:${Versions.ktor}")
     implementation("io.ktor:ktor-client-json:${Versions.ktor}")
     implementation("io.ktor:ktor-client-serialization:${Versions.ktor}")
     implementation("io.ktor:ktor-client-cio:${Versions.ktor}")
     testImplementation("io.ktor:ktor-client-mock:${Versions.ktor}")
-    implementation("no.nav.helsearbeidsgiver:tokenprovider:${Versions.tokenprovider}")
 }
 
 graphql {
