@@ -14,7 +14,7 @@ fun buildSafDokumentRestKlient(status: HttpStatusCode, content: String): SafDoku
     return SafDokumentRestKlient(
         "",
         mockHttpClient(status, content),
-        MockAccessTokenProvider()
+        { MockAccessTokenProvider().getToken() }
     )
 }
 
