@@ -9,8 +9,6 @@ import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import io.ktor.util.toByteArray
 import kotlinx.coroutines.runBlocking
-import no.nav.helsearbeidsgiver.saf.utils.log
-import no.nav.helsearbeidsgiver.tokenprovider.AccessTokenProvider
 
 /**
  * Klient som henter dokument fra saf
@@ -27,30 +25,34 @@ import no.nav.helsearbeidsgiver.tokenprovider.AccessTokenProvider
 class SafDokumentRestKlient(
     private val url: String,
     private val httpClient: HttpClient,
-    private val stsClient: AccessTokenProvider
+    private val accessTokenProvider: () -> String,
 ) {
-    val log = log()
-
-    fun hentDokument(
+    fun hentDokumentSync(
         journalpostId: String,
         dokumentInfoId: String,
         callId: String
-    ): ByteArray? {
-        log.info("Henter dokument fra journalpostId $journalpostId, og dokumentInfoId $dokumentInfoId")
-        val response = runBlocking {
-            httpClient.get<HttpStatement>("$url/hentdokument/$journalpostId/$dokumentInfoId/ORIGINAL") {
-                accept(ContentType.Application.Xml)
-                header("Authorization", "Bearer ${stsClient.getToken()}")
-                header("Nav-Callid", callId)
-                header("Nav-Consumer-Id", "helsearbeidsgiver-saf-klient")
-            }.execute()
-        }
+    ): ByteArray {
+        return runBlocking { hentDokument(journalpostId, dokumentInfoId, callId) }
+    }
+
+    suspend fun hentDokument(
+        journalpostId: String,
+        dokumentInfoId: String,
+        callId: String
+    ): ByteArray {
+        val response = httpClient.get<HttpStatement>("$url/hentdokument/$journalpostId/$dokumentInfoId/ORIGINAL") {
+            accept(ContentType.Application.Xml)
+            header("Authorization", "Bearer ${accessTokenProvider()}")
+            header("Nav-Callid", callId)
+            header("Nav-Consumer-Id", "helsearbeidsgiver-saf-klient")
+        }.execute()
         if (response.status != HttpStatusCode.OK) {
-            log.info("Saf returnerte: httpstatus {}", response.status)
-            return null
+            throw SafDokumentRestException(
+                "Saf returnerte: httpstatus  ${response.status}" +
+                    " for journalpostId $journalpostId, og dokumentInfoId $dokumentInfoId"
+            )
         }
-        return runBlocking {
-            response.content.toByteArray()
-        }
+        return response.content.toByteArray()
     }
 }
+open class SafDokumentRestException(feilmelding: String) : RuntimeException(feilmelding)
