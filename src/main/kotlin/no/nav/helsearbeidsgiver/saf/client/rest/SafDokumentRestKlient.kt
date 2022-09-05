@@ -30,17 +30,19 @@ class SafDokumentRestKlient(
     fun hentDokumentSync(
         journalpostId: String,
         dokumentInfoId: String,
+        variantFormat: String,
         callId: String
     ): ByteArray {
-        return runBlocking { hentDokument(journalpostId, dokumentInfoId, callId) }
+        return runBlocking { hentDokument(journalpostId, dokumentInfoId, variantFormat, callId) }
     }
 
     suspend fun hentDokument(
         journalpostId: String,
         dokumentInfoId: String,
+        variantFormat: String,
         callId: String
     ): ByteArray {
-        val response = httpClient.get<HttpStatement>("$url/hentdokument/$journalpostId/$dokumentInfoId/ORIGINAL") {
+        val response = httpClient.get<HttpStatement>("$url/hentdokument/$journalpostId/$dokumentInfoId/$variantFormat") {
             accept(ContentType.Application.Xml)
             header("Authorization", "Bearer ${accessTokenProvider()}")
             header("Nav-Callid", callId)
