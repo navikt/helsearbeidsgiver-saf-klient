@@ -33,7 +33,7 @@ class SafDokumentRestKlient(
         variantFormat: String,
         callId: String
     ): ByteArray {
-        return runBlocking { hentDokument(journalpostId, dokumentInfoId, callId, variantFormat) }
+        return runBlocking { hentDokument(journalpostId, dokumentInfoId, variantFormat, callId) }
     }
 
     suspend fun hentDokument(
