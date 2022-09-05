@@ -11,7 +11,10 @@ import no.nav.helsearbeidsgiver.saf.client.graphql.SafKlientImpl
 import no.nav.helsearbeidsgiver.saf.client.graphql.SyncSafKlient
 import java.util.UUID
 
-fun buildSafDokumentRestKlient(status: HttpStatusCode, content: String): SafDokumentRestKlient {
+fun buildSafDokumentRestKlient(
+    status: HttpStatusCode,
+    content: String
+): SafDokumentRestKlient {
     return SafDokumentRestKlient(
         "",
         mockHttpClient(status, content),
