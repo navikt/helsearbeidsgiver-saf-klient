@@ -7,8 +7,13 @@ import no.nav.helsearbeidsgiver.saf.graphql.generated.enums.BrukerIdType
 import no.nav.helsearbeidsgiver.saf.graphql.generated.enums.Journalstatus
 import no.nav.helsearbeidsgiver.saf.graphql.generated.enums.Tema
 
-suspend fun SafKlientImpl.dokumentoversiktBruker(id: String, type: BrukerIdType, callId: String): List<Journalpost?> {
-    return dokumentoversiktBruker(buildQuery(id, type), callId)
+suspend fun SafKlientImpl.dokumentoversiktBruker(
+    id: String,
+    type: BrukerIdType,
+    tema: List<Tema>,
+    callId: String
+): List<Journalpost?> {
+    return dokumentoversiktBruker(buildQuery(id, type, tema = tema), callId)
 }
 
 fun buildQuery(

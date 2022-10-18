@@ -9,6 +9,7 @@ import io.ktor.http.HttpHeaders
 import kotlinx.coroutines.runBlocking
 import no.nav.helsearbeidsgiver.saf.graphql.generated.dokumenterfagsak.Journalpost
 import no.nav.helsearbeidsgiver.saf.graphql.generated.enums.BrukerIdType
+import no.nav.helsearbeidsgiver.saf.graphql.generated.enums.Tema
 import java.net.URL
 import no.nav.helsearbeidsgiver.saf.graphql.generated.dokumenterbruker.Journalpost as JournalpostBruker
 
@@ -17,8 +18,8 @@ interface SafKlient {
 }
 
 interface SyncSafKlient {
-    fun dokumentoversiktFagsakSync(fagsak: String, fagsystem: String, callId: String): List<Journalpost?>
-    fun dokumentoversiktBrukerSync(id: String, type: BrukerIdType, callId: String): List<JournalpostBruker?>
+    fun dokumentoversiktFagsakSync(fagsak: String, fagsystem: String, tema: List<Tema>, callId: String): List<Journalpost?>
+    fun dokumentoversiktBrukerSync(id: String, type: BrukerIdType, tema: List<Tema>, callId: String): List<JournalpostBruker?>
 }
 
 class SafKlientImpl(
@@ -38,11 +39,11 @@ class SafKlientImpl(
             header("Nav-Consumer-Id", "helsearbeidsgiver-saf-klient")
         }
 
-    override fun dokumentoversiktFagsakSync(fagsak: String, fagsystem: String, callId: String): List<Journalpost?> {
-        return runBlocking { dokumentoversiktFagsak(fagsak, fagsystem, callId) }
+    override fun dokumentoversiktFagsakSync(fagsak: String, fagsystem: String, tema: List<Tema>, callId: String): List<Journalpost?> {
+        return runBlocking { dokumentoversiktFagsak(fagsak, fagsystem, tema, callId) }
     }
 
-    override fun dokumentoversiktBrukerSync(id: String, type: BrukerIdType, callId: String): List<JournalpostBruker?> {
-        return runBlocking { dokumentoversiktBruker(id, type, callId) }
+    override fun dokumentoversiktBrukerSync(id: String, type: BrukerIdType, tema: List<Tema>, callId: String): List<JournalpostBruker?> {
+        return runBlocking { dokumentoversiktBruker(id, type, tema, callId) }
     }
 }

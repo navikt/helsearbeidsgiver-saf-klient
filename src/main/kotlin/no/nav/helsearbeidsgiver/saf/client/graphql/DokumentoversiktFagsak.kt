@@ -3,11 +3,13 @@ package no.nav.helsearbeidsgiver.saf.client.graphql
 import no.nav.helsearbeidsgiver.saf.graphql.generated.DokumenterFagsak
 import no.nav.helsearbeidsgiver.saf.graphql.generated.inputs.FagsakInput
 import no.nav.helsearbeidsgiver.saf.graphql.generated.dokumenterfagsak.Journalpost
-suspend fun SafKlientImpl.dokumentoversiktFagsak(fagsak: String, fagsystem: String, callId: String): List<Journalpost?> {
+import no.nav.helsearbeidsgiver.saf.graphql.generated.enums.Tema
 
+suspend fun SafKlientImpl.dokumentoversiktFagsak(fagsak: String, fagsystem: String, tema: List<Tema>, callId: String): List<Journalpost?> {
     val query = DokumenterFagsak(
         DokumenterFagsak.Variables(
             fagsak = FagsakInput(fagsak, fagsystem),
+            tema = tema,
             foerste = 1000
         )
     )
@@ -21,10 +23,6 @@ suspend fun SafKlientImpl.dokumentoversiktFagsak(fagsak: String, fagsystem: Stri
     return jounalposter
 }
 open class SafDokumentoversiktFagsakException(feilmelding: String) : Exception(feilmelding)
-
-open class NotAuthorizedException(fagsak: String, fagsystem: String) : SafDokumentoversiktFagsakException(
-    "SAF ga ikke tilgang til å hente Dokumenter for fagsak: $fagsak og fagsystem: $fagsystem"
-)
 
 open class ErrorException(fagsak: String, fagsystem: String, errors: String) :
     SafDokumentoversiktFagsakException(

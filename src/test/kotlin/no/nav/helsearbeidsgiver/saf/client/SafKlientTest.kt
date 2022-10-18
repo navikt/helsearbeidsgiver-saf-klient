@@ -5,6 +5,7 @@ import kotlinx.serialization.json.Json
 import no.nav.helsearbeidsgiver.saf.client.graphql.ErrorException
 import no.nav.helsearbeidsgiver.saf.client.graphql.SafDokumentoversiktBrukerException
 import no.nav.helsearbeidsgiver.saf.graphql.generated.enums.BrukerIdType
+import no.nav.helsearbeidsgiver.saf.graphql.generated.enums.Tema
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import java.util.*
@@ -13,18 +14,20 @@ import kotlin.test.assertEquals
 class SafKlientTest {
     private fun getResourceAsText(filename: String) =
         this::class.java.classLoader.getResource("responses/$filename")!!.readText()
+
     @Test
     fun `Forventer gyldig response fra DokumentoversiktFagsak`() {
         val response = Json.encodeToString(lagGyldigResponse())
         val safKlient = buildSafKlient(response)
-        val resultat = safKlient.dokumentoversiktFagsakSync("12345", "Test", UUID.randomUUID().toString())
+        val resultat = safKlient.dokumentoversiktFagsakSync("12345", "Test", listOf(Tema.FOR), UUID.randomUUID().toString())
         assertEquals("1234", resultat.get(0)?.journalpostId)
     }
+
     @Test
     fun `Forventer gyldig response fra DokumentoversiktBruker`() {
         val response = Json.encodeToString(lagGyldigDokumentBrukerResponse())
         val safKlient = buildSafKlient(response)
-        val resultat = safKlient.dokumentoversiktBrukerSync("12345", BrukerIdType.AKTOERID, UUID.randomUUID().toString())
+        val resultat = safKlient.dokumentoversiktBrukerSync("12345", BrukerIdType.AKTOERID, listOf(Tema.FOR), UUID.randomUUID().toString())
         assertEquals("1234", resultat.get(0)?.journalpostId)
     }
 
@@ -33,15 +36,16 @@ class SafKlientTest {
         val response = getResourceAsText("error.json")
         val safKlient = buildSafKlient(response)
         assertThrows<ErrorException> {
-            safKlient.dokumentoversiktFagsakSync("12345", "Test", UUID.randomUUID().toString())
+            safKlient.dokumentoversiktFagsakSync("12345", "Test", listOf(Tema.FOR), UUID.randomUUID().toString())
         }
     }
+
     @Test
     fun `Forventer gyldig feilmelding for dokumentBruker`() {
         val response = getResourceAsText("error.json")
         val safKlient = buildSafKlient(response)
         assertThrows<SafDokumentoversiktBrukerException> {
-            safKlient.dokumentoversiktBrukerSync("12345", BrukerIdType.AKTOERID, UUID.randomUUID().toString())
+            safKlient.dokumentoversiktBrukerSync("12345", BrukerIdType.AKTOERID, listOf(Tema.FOR), UUID.randomUUID().toString())
         }
     }
 }
