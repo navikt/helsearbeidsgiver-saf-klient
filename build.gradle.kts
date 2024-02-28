@@ -1,16 +1,16 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 val ktorVersion: String by project
-val graphQLKotlin: String by project
+val graphQLKotlinVersion: String by project
 
 val githubPassword: String by project
 
 plugins {
     id("maven-publish")
-    kotlin("jvm") version "1.6.21"
-    kotlin("plugin.serialization") version "1.6.21"
-    id("com.expediagroup.graphql") version "5.5.0"
-    id("org.jmailen.kotlinter") version "3.10.0"
+    kotlin("jvm")
+    kotlin("plugin.serialization")
+    id("com.expediagroup.graphql")
+    id("org.jmailen.kotlinter")
 }
 
 group = "no.nav.helsearbeidsgiver"
@@ -63,7 +63,7 @@ publishing {
 dependencies {
     testImplementation(kotlin("test"))
 
-    implementation("com.expediagroup:graphql-kotlin-ktor-client:$graphQLKotlin")
+    implementation("com.expediagroup:graphql-kotlin-ktor-client:$graphQLKotlinVersion")
     implementation("io.ktor:ktor-client-core:$ktorVersion")
     implementation("io.ktor:ktor-client-json:$ktorVersion")
     implementation("io.ktor:ktor-client-serialization:$ktorVersion")
