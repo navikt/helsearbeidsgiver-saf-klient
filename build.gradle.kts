@@ -1,19 +1,16 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 val ktorVersion: String by project
-val githubPassword: String by project
+val graphQLKotlinVersion: String by project
 
-object Versions {
-    const val graphQLKotlin = "5.5.0"
-    const val ktor = "1.6.8"
-}
+val githubPassword: String by project
 
 plugins {
     id("maven-publish")
-    kotlin("jvm") version "1.6.21"
-    kotlin("plugin.serialization") version "1.6.21"
-    id("com.expediagroup.graphql") version "5.5.0"
-    id("org.jmailen.kotlinter") version "3.10.0"
+    kotlin("jvm")
+    kotlin("plugin.serialization")
+    id("com.expediagroup.graphql")
+    id("org.jmailen.kotlinter")
 }
 
 group = "no.nav.helsearbeidsgiver"
@@ -39,8 +36,8 @@ repositories {
     mavenCentral()
     maven {
         credentials {
-            username = System.getenv("GITHUB_ACTOR") ?: "x-access-token"
-            password = System.getenv("GITHUB_TOKEN") ?: githubPassword
+            username = "x-access-token"
+            password = githubPassword
         }
         setUrl("https://maven.pkg.github.com/navikt/*")
     }
@@ -56,8 +53,8 @@ publishing {
         maven {
             url = uri("https://maven.pkg.github.com/navikt/helsearbeidsgiver-${rootProject.name}")
             credentials {
-                username = System.getenv("GITHUB_ACTOR")
-                password = System.getenv("GITHUB_TOKEN")
+                username = "x-access-token"
+                password = githubPassword
             }
         }
     }
@@ -66,12 +63,12 @@ publishing {
 dependencies {
     testImplementation(kotlin("test"))
 
-    implementation("com.expediagroup:graphql-kotlin-ktor-client:${Versions.graphQLKotlin}")
-    implementation("io.ktor:ktor-client-core:${Versions.ktor}")
-    implementation("io.ktor:ktor-client-json:${Versions.ktor}")
-    implementation("io.ktor:ktor-client-serialization:${Versions.ktor}")
-    implementation("io.ktor:ktor-client-cio:${Versions.ktor}")
-    testImplementation("io.ktor:ktor-client-mock:${Versions.ktor}")
+    implementation("com.expediagroup:graphql-kotlin-ktor-client:$graphQLKotlinVersion")
+    implementation("io.ktor:ktor-client-core:$ktorVersion")
+    implementation("io.ktor:ktor-client-json:$ktorVersion")
+    implementation("io.ktor:ktor-client-serialization:$ktorVersion")
+    implementation("io.ktor:ktor-client-cio:$ktorVersion")
+    testImplementation("io.ktor:ktor-client-mock:$ktorVersion")
 }
 
 graphql {
