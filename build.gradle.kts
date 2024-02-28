@@ -64,11 +64,11 @@ dependencies {
     testImplementation(kotlin("test"))
 
     implementation("com.expediagroup:graphql-kotlin-ktor-client:${graphQLKotlin}")
-    implementation("io.ktor:ktor-client-core:${ktorVersion}")
-    implementation("io.ktor:ktor-client-json:${ktorVersion}")
-    implementation("io.ktor:ktor-client-serialization:${ktorVersion}")
-    implementation("io.ktor:ktor-client-cio:${ktorVersion}")
-    testImplementation("io.ktor:ktor-client-mock:${ktorVersion}")
+    implementation("io.ktor:ktor-client-core:$ktorVersion")
+    implementation("io.ktor:ktor-client-json:$ktorVersion")
+    implementation("io.ktor:ktor-client-serialization:$ktorVersion")
+    implementation("io.ktor:ktor-client-cio:$ktorVersion")
+    testImplementation("io.ktor:ktor-client-mock:$ktorVersion")
 }
 
 graphql {
