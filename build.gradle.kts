@@ -14,7 +14,17 @@ plugins {
     kotlin("plugin.serialization") version "1.6.21"
     id("com.expediagroup.graphql") version "5.5.0"
     id("org.jmailen.kotlinter") version "3.10.0"
-}
+    id("org.sonarqube") version "2.8"
+ }
+
+sonarqube {
+    properties {
+        property("sonar.projectKey", "navikt_helsearbeidsgiver-saf-klient")
+        property("sonar.organization", "navikt")
+        property("sonar.host.url", "https://sonarcloud.io")
+        property("sonar.login", System.getenv("SONAR_TOKEN"))
+    }
+ }
 
 group = "no.nav.helsearbeidsgiver"
 version = "1.0.1"
