@@ -17,7 +17,7 @@ plugins {
 }
 
 group = "no.nav.helsearbeidsgiver"
-version = "1.0.1"
+version = "1.0.2"
 
 tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "11"
